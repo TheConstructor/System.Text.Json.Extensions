@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Text.Json.Extensions", "System.Text.Json.Extensions\System.Text.Json.Extensions.csproj", "{79DECB74-8532-4491-BCD8-B87789686689}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E18A8452-2B48-4C7F-89C1-F0B81FDA6D7E}"
+ProjectSection(SolutionItems) = preProject
+	Readme.md = Readme.md
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Text.Json.ExtensionsTest", "System.Text.Json.ExtensionsTest\System.Text.Json.ExtensionsTest.csproj", "{160C8D7A-C96E-4FCC-8585-7CE264641458}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79DECB74-8532-4491-BCD8-B87789686689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79DECB74-8532-4491-BCD8-B87789686689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79DECB74-8532-4491-BCD8-B87789686689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79DECB74-8532-4491-BCD8-B87789686689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{160C8D7A-C96E-4FCC-8585-7CE264641458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{160C8D7A-C96E-4FCC-8585-7CE264641458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{160C8D7A-C96E-4FCC-8585-7CE264641458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{160C8D7A-C96E-4FCC-8585-7CE264641458}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
