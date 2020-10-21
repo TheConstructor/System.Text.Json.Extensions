@@ -6,21 +6,14 @@ namespace System.Text.Json.ExtensionsTest
 {
     public class Utf8JsonReaderExtensionsFixture
     {
-        private class DummyObject
-        {
-            public string MyValue { get; set; }
-        }
-        
         [Fact]
         public void ReadObjectReadDummyObject()
         {
-            var jsonReaderOptions = new JsonReaderOptions();
             var jsonSerializerOptions = new JsonSerializerOptions();
-            var utf8Bytes = Encoding.UTF8.GetBytes("{\"MyValue\": \"MyValue\"}");
-            var reader = new Utf8JsonReader(utf8Bytes, jsonReaderOptions);
+            TestHelper.GetReader("{\"MyValue\": \"MyValue\"}", jsonSerializerOptions, out var reader);
 
-            var dummyObject = reader.ReadObject<DummyObject>(jsonSerializerOptions);
-            
+            var dummyObject = reader.ReadObject<TestHelper.DummyObject>(jsonSerializerOptions);
+
             dummyObject.MyValue
                 .ShouldBe("MyValue");
         }

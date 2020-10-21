@@ -42,5 +42,20 @@ namespace System.Text.Json.Extensions
                 return JsonSerializer.Deserialize<T>(ref reader, options);
             }
         }
+
+        public static T Throw<T>(this ref Utf8JsonReader reader, string message)
+        {
+            throw GetException(ref reader, message);
+        }
+
+        public static void Throw(this ref Utf8JsonReader reader, string message)
+        {
+            throw GetException(ref reader, message);
+        }
+
+        public static JsonException GetException(this ref Utf8JsonReader reader, string message)
+        {
+            return new JsonException(message, null, null, reader.BytesConsumed);
+        }
     }
 }

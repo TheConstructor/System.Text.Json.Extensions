@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E18A8452-2B48-4C7F-89C1-F0B81FDA6D7E}"
 ProjectSection(SolutionItems) = preProject
 	Readme.md = Readme.md
+	.github/workflows/dotnet-core.yml = .github/workflows/dotnet-core.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Text.Json.ExtensionsTest", "System.Text.Json.ExtensionsTest\System.Text.Json.ExtensionsTest.csproj", "{160C8D7A-C96E-4FCC-8585-7CE264641458}"
