@@ -41,6 +41,11 @@ namespace System.Text.Json.Extensions.Converters
 
         public override void Write(Utf8JsonWriter writer, TCollection collection, JsonSerializerOptions options)
         {
+            if (writer == null)
+            {
+                throw new ArgumentNullException(nameof(writer));
+            }
+
             if (collection == null)
             {
                 writer.WriteNullValue();

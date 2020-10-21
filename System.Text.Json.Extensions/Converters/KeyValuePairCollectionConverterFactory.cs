@@ -5,9 +5,9 @@ namespace System.Text.Json.Extensions.Converters
 {
     public class KeyValuePairCollectionConverterFactory : JsonConverterFactory
     {
-        public Type GetValueType(Type typeToConvert)
+        public static Type GetValueType(Type typeToConvert)
         {
-            if (typeToConvert.GetConstructor(new Type[0]) == null)
+            if (typeToConvert?.GetConstructor(Array.Empty<Type>()) == null)
             {
                 return null;
             }

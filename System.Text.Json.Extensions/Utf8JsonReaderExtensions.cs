@@ -16,7 +16,7 @@ namespace System.Text.Json.Extensions
             {
                 reader.Read();
             } while (reader.TokenType == JsonTokenType.Comment
-                     && options.ReadCommentHandling == JsonCommentHandling.Skip);
+                     && options?.ReadCommentHandling == JsonCommentHandling.Skip);
 
             return GetObject<T>(ref reader, options);
         }

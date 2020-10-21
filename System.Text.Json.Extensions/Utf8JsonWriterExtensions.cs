@@ -12,6 +12,11 @@ namespace System.Text.Json.Extensions
         /// </summary>
         public static void WriteObject<T>(this Utf8JsonWriter writer, string propertyName, T value, JsonSerializerOptions options)
         {
+            if (writer == null)
+            {
+                throw new ArgumentNullException(nameof(writer));
+            }
+
             writer.WritePropertyName(propertyName);
             writer.WriteObject(value, options);
         }
@@ -23,6 +28,11 @@ namespace System.Text.Json.Extensions
         /// </summary>
         public static void WriteObject<T>(this Utf8JsonWriter writer, T value, JsonSerializerOptions options)
         {
+            if (writer == null)
+            {
+                throw new ArgumentNullException(nameof(writer));
+            }
+
             var typeToConvert = typeof(T);
 
             // Attempt to use existing converter first before re-entering through JsonSerializer.Serialize().
