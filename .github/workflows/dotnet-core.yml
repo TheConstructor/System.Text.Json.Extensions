@@ -11,12 +11,16 @@ jobs:
     strategy:
       matrix:
         dotnet: [ '3.1.x' ]
-    name: Dotnet ${{ matrix.dotnet }}
+    name: .NET Core ${{ matrix.dotnet }}
 
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
 
     steps:
       - uses: actions/checkout@v2
+
+      # https://github.com/actions/setup-dotnet/
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -30,6 +34,12 @@ jobs:
 
       - name: Create the package
         run: dotnet pack --configuration Release System.Text.Json.Extensions
+      - name: Get Version
+        id: get_version
+        shell: pwsh
+        run: |
+          Write-Host "::set-output name=packageAndVersion::$(Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase)"
+          Write-Host "::set-output name=version::$((Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase) -replace '^.*?(\d.*)$','$1')"
       - uses: actions/upload-artifact@v2
         with:
           name: Dotnet ${{ matrix.dotnet }}
@@ -61,3 +71,25 @@ jobs:
       - name: Publish the package to GPR
         if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
         run: dotnet nuget push System.Text.Json.Extensions/bin/Release/*.nupkg
+
+      - name: Create Release
+        id: create_release
+        if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.version }}
+          release_name: Release ${{ steps.get_version.version }}
+          draft: true
+          prerelease: false
+      - name: Upload Release Asset
+        if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: System.Text.Json.Extensions/bin/Release/${{ steps.get_version.packageAndVersion }}.nupkg
+          asset_name: ${{ steps.get_version.packageAndVersion }}.nupkg
+          asset_content_type: application/zip
