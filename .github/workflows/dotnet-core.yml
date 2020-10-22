@@ -36,10 +36,12 @@ jobs:
         run: dotnet pack --configuration Release System.Text.Json.Extensions
       - name: Get Version
         id: get_version
-        shell: pwsh
         run: |
+          Write-Host "name=packageAndVersion::$(Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase)"
           Write-Host "::set-output name=packageAndVersion::$(Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase)"
+          Write-Host "name=version::$((Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase) -replace '^.*?(\d.*)$','$1')"
           Write-Host "::set-output name=version::$((Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase) -replace '^.*?(\d.*)$','$1')"
+        shell: pwsh
       - uses: actions/upload-artifact@v2
         with:
           name: Dotnet ${{ matrix.dotnet }}

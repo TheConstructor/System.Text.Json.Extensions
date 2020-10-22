@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <PackageId>System.Text.Json.Extensions</PackageId>
-        <Version>1.0.6</Version>
+        <Version>1.0.7</Version>
         <Authors>TheConstructor</Authors>
         <PackageDescription>This package tries to collect some extensions and converters that ease the usage of System.Text.Json.</PackageDescription>
         <RepositoryUrl>https://github.com/TheConstructor/System.Text.Json.Extensions</RepositoryUrl>
