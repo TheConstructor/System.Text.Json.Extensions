@@ -60,7 +60,7 @@ jobs:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish the package to GPR
         if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
-        run: dotnet nuget push System.Text.Json.Extensions/bin/Release/
+        run: dotnet nuget push System.Text.Json.Extensions/bin/Release/*.nupkg
       - name: Bump versions
         if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
         uses: SiqiLu/dotnet-bump-version@1.0.1
