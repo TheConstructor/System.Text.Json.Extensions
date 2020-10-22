@@ -14,6 +14,8 @@ jobs:
     name: .NET Core ${{ matrix.dotnet }}
 
     runs-on: ubuntu-latest
+    env:
+      DOTNET_NOLOGO: true
     outputs:
       packageAndVersion: ${{ steps.get_version.outputs.packageAndVersion }}
       version: ${{ steps.get_version.outputs.version }}
@@ -62,20 +64,20 @@ jobs:
           if-no-files-found: error
 
       - name: Setup .NET Core for GPR
-        if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
+        if: success() && github.repository_owner == 'TheConstructor' && github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.dotnet == '3.1.x'
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{matrix.dotnet}}
-          source-url: https://nuget.pkg.github.com/TheConstructor/index.json
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Publish the package to GPR
-        if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
+        if: success() && github.repository_owner == 'TheConstructor' && github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.dotnet == '3.1.x'
         run: dotnet nuget push System.Text.Json.Extensions/bin/Release/*.nupkg
 
       - name: Create Release
         id: create_release
-        if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
+        if: success() && github.repository_owner == 'TheConstructor' && github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.dotnet == '3.1.x'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -85,7 +87,7 @@ jobs:
           draft: true
           prerelease: false
       - name: Upload Release Asset
-        if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
+        if: success() && github.repository_owner == 'TheConstructor' && github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.dotnet == '3.1.x'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
