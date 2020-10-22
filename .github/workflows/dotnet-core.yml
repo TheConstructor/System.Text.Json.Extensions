@@ -8,18 +8,55 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        dotnet: [ '3.1.x' ]
+    name: Dotnet ${{ matrix.dotnet }}
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{matrix.dotnet}}
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=opencover
+
+      - name: Create the package
+        run: dotnet pack --configuration Release System.Text.Json.Extensions
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Dotnet ${{ matrix.dotnet }}
+          path: System.Text.Json.Extensions/bin/Release/
+          if-no-files-found: error
+
+      - name: ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@4.5.8
+        with:
+          reports: '**/TestResults/coverage.opencover.xml' # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
+          targetdir: 'coveragereport' # REQUIRED # The directory where the generated report should be saved.
+          reporttypes: 'HtmlInline' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, CsvSummary, Html, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlSummary, JsonSummary, Latex, LatexSummary, lcov, MHtml, PngChart, SonarQube, TeamCitySummary, TextSummary, Xml, XmlSummary
+          verbosity: 'Info' # The verbosity level of the log messages. Values: Verbose, Info, Warning, Error, Off
+          tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Dotnet ${{ matrix.dotnet }} coveragereport
+          path: coveragereport/
+          if-no-files-found: error
+
+      - name: Setup .NET Core for GPR
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{matrix.dotnet}}
+          source-url: https://nuget.pkg.github.com/TheConstructor/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Publish the package to GPR
+        if: success() && github.event_name == 'push' && matrix.dotnet == '3.1.x'
+        run: dotnet nuget push System.Text.Json.Extensions/bin/Release/
