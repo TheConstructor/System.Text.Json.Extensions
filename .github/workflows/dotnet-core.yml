@@ -31,12 +31,12 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore --version-suffix ${{ github.run_number }}
       - name: Test
         run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=opencover
 
       - name: Create the package
-        run: dotnet pack --configuration Release System.Text.Json.Extensions
+        run: dotnet pack --configuration Release --version-suffix ${{ github.run_number }} System.Text.Json.Extensions
       - name: Get Version
         id: get_version
         run: |
