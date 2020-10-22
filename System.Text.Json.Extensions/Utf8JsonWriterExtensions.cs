@@ -10,7 +10,8 @@ namespace System.Text.Json.Extensions
         /// 
         /// Based on <see cref="JsonKeyValuePairConverter{TKey,TValue}.WriteProperty{T}"/>
         /// </summary>
-        public static void WriteObject<T>(this Utf8JsonWriter writer, string propertyName, T value, JsonSerializerOptions options)
+        public static void WriteObject<T>(this Utf8JsonWriter writer, string propertyName, T value,
+            JsonSerializerOptions options)
         {
             if (writer == null)
             {

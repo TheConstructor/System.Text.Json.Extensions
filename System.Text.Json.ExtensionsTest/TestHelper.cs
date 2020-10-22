@@ -12,7 +12,8 @@ namespace System.Text.Json.ExtensionsTest
             reader = new Utf8JsonReader(utf8Bytes, jsonReaderOptions);
         }
 
-        public static string WithWriter(Action<Utf8JsonWriter> action, JsonSerializerOptions options, bool skipValidation = true)
+        public static string WithWriter(Action<Utf8JsonWriter> action, JsonSerializerOptions options,
+            bool skipValidation = true)
         {
             using var buffer = new MemoryStream();
             using (var writer = new Utf8JsonWriter(buffer, options.GetWriterOptions(skipValidation)))

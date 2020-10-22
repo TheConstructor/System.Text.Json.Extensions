@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Text.Json.Extensions.Converters;
 using System.Text.Json.Serialization;
 using Shouldly;
@@ -82,7 +81,7 @@ namespace System.Text.Json.ExtensionsTest.Converters
                         jsonSerializerOptions);
                 },
                 jsonSerializerOptions);
-            
+
             json.ShouldBe("{\"Key\":\"Value\"}");
         }
 
@@ -105,7 +104,7 @@ namespace System.Text.Json.ExtensionsTest.Converters
                         jsonSerializerOptions);
                 },
                 jsonSerializerOptions);
-            
+
             json.ShouldBe("{\"Key\":\"Value\"}");
         }
     }

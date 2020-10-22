@@ -7,7 +7,7 @@ namespace System.Text.Json.ExtensionsTest
     public class Utf8JsonReaderExtensionsFixture
     {
         [Fact]
-        public void ReadObjectReadDummyObject()
+        public void ReadObjectReadsDummyObject()
         {
             var jsonSerializerOptions = new JsonSerializerOptions();
             TestHelper.GetReader("{\"MyValue\": \"MyValue\"}", jsonSerializerOptions, out var reader);
