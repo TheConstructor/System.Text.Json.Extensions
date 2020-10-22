@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <PackageId>System.Text.Json.Extensions</PackageId>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <!--
         It seems that GPR currently doesn't work with snupkg, claiming that the nupkg already exists
