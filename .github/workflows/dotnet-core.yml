@@ -15,6 +15,7 @@ jobs:
 
     runs-on: ubuntu-latest
     outputs:
+      packageAndVersion: ${{ steps.get_version.outputs.packageAndVersion }}
       version: ${{ steps.get_version.outputs.version }}
 
     steps:
@@ -37,9 +38,7 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          Write-Host "name=packageAndVersion::$(Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase)"
           Write-Host "::set-output name=packageAndVersion::$(Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase)"
-          Write-Host "name=version::$((Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase) -replace '^.*?(\d.*)$','$1')"
           Write-Host "::set-output name=version::$((Split-Path -Path $(Resolve-Path "System.Text.Json.Extensions/bin/Release/*.nupkg") -LeafBase) -replace '^.*?(\d.*)$','$1')"
         shell: pwsh
       - uses: actions/upload-artifact@v2
@@ -81,8 +80,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.get_version.version }}
-          release_name: Release ${{ steps.get_version.version }}
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
           draft: true
           prerelease: false
       - name: Upload Release Asset
@@ -92,6 +91,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: System.Text.Json.Extensions/bin/Release/${{ steps.get_version.packageAndVersion }}.nupkg
-          asset_name: ${{ steps.get_version.packageAndVersion }}.nupkg
+          asset_path: System.Text.Json.Extensions/bin/Release/${{ steps.get_version.outputs.packageAndVersion }}.nupkg
+          asset_name: ${{ steps.get_version.outputs.packageAndVersion }}.nupkg
           asset_content_type: application/zip
