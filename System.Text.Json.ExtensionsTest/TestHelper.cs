@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.Json.Extensions;
 
@@ -35,6 +36,7 @@ namespace System.Text.Json.ExtensionsTest
 
         public abstract class AbstractCollection : ICollection<KeyValuePair<string, string>>
         {
+            [SuppressMessage("ReSharper", "PublicConstructorInAbstractClass")]
             public AbstractCollection()
             {
             }
