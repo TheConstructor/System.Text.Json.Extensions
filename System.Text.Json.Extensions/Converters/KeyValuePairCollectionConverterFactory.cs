@@ -7,7 +7,8 @@ namespace System.Text.Json.Extensions.Converters
     {
         public static Type GetValueType(Type typeToConvert)
         {
-            if (typeToConvert?.GetConstructor(Array.Empty<Type>()) == null)
+            if (typeToConvert?.IsAbstract != false
+                || typeToConvert.GetConstructor(Array.Empty<Type>()) == null)
             {
                 return null;
             }

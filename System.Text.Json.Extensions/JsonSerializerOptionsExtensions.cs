@@ -2,7 +2,8 @@ namespace System.Text.Json.Extensions
 {
     public static class JsonSerializerOptionsExtensions
     {
-        public static JsonReaderOptions GetReaderOptions(this JsonSerializerOptions jsonSerializerOptions)
+        public static JsonReaderOptions GetReaderOptions(this JsonSerializerOptions jsonSerializerOptions,
+            JsonCommentHandling? commentHandling = null)
         {
             if (jsonSerializerOptions == null)
             {
@@ -11,7 +12,7 @@ namespace System.Text.Json.Extensions
 
             return new JsonReaderOptions
             {
-                CommentHandling = jsonSerializerOptions.ReadCommentHandling,
+                CommentHandling = commentHandling ?? jsonSerializerOptions.ReadCommentHandling,
                 AllowTrailingCommas = jsonSerializerOptions.AllowTrailingCommas,
                 MaxDepth = jsonSerializerOptions.MaxDepth
             };

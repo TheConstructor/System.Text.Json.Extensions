@@ -11,6 +11,8 @@ namespace System.Text.Json.ExtensionsTest.Converters
         [Theory]
         [InlineData(typeof(List<string>), false)]
         [InlineData(typeof(IEnumerable<KeyValuePair<string, string>>), false)]
+        [InlineData(typeof(TestHelper.AbstractCollection), false)]
+        [InlineData(typeof(TestHelper.ListWithoutDefaultConstructor), false)]
         [InlineData(typeof(KeyValuePair<string, string>), false)]
         [InlineData(typeof(List<KeyValuePair<string, string>>), true)]
         [InlineData(typeof(List<KeyValuePair<int, string>>), false)]
